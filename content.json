@@ -13,12 +13,12 @@
     "emblem": "images/emblem.png"
   },
   "home": {
-    "title": "마리 아동·청소년\n상담센터",
+    "title": "마리 아동청소년상담센터",
     "text": "**마리** (-마이-리얼셀프 ; MY REAL SELF)\n_ 삶은 진정한 자신을 찾아가는 여정, 그 소중한 길에 마리가 함께합니다.",
     "slides": [
-      "images/slide1.png",
       "images/slide2.png",
-      "images/reception.png"
+      "images/reception.png",
+      "images/slide1.png"
     ]
   },
   "about": {
