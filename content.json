@@ -5,8 +5,8 @@
     "phone": "02-375-4200",
     "email": "mary-counsel@naver.com",
     "kakaoUrl": "",
-    "zip": "120120",
-    "address": "서울특별시 서대문구 남가좌동 286-1, DMC금호리첸시아 상가 2층 203호",
+    "zip": "03712",
+    "address": "서울특별시 서대문구 수색로 2길 39, DMC금호리첸시아 상가 2층 203호",
     "bizNumber": "543-98-01444",
     "copyright": "COPYRIGHT © 마리아동청소년상담센터 2025 ALL RIGHTS RESERVED.",
     "logo": "images/logo.png",
@@ -15,26 +15,51 @@
   "home": {
     "title": "마리 아동·청소년\n상담센터",
     "text": "**마리** (-마이-리얼셀프 ; MY REAL SELF)\n_ 삶은 진정한 자신을 찾아가는 여정, 그 소중한 길에 마리가 함께합니다.",
-    "slides": ["images/slide1.png", "images/slide2.png", "images/reception.png"]
+    "slides": [
+      "images/slide1.png",
+      "images/slide2.png",
+      "images/reception.png"
+    ]
   },
   "about": {
     "title": "마리 아동·청소년 상담센터",
     "desc": "마리 (-마이-리얼셀프 ; MY REAL SELF)_ 삶은 진정한 자신을 찾아가는 여정, 그 소중한 길에 마리가 함께합니다.",
     "services": "놀이심리상담/청소년상담/심리평가/언어치료/집단상담/성인상담/양육상담",
     "hours": [
-      { "day": "Mon - Fri", "time": "AM11 – PM08" },
-      { "day": "Sat", "time": "AM09 – PM06" },
-      { "day": "Sun", "time": "CLOSE" }
+      {
+        "day": "Mon - Fri",
+        "time": "AM11 – PM08"
+      },
+      {
+        "day": "Sat",
+        "time": "AM09 – PM06"
+      },
+      {
+        "day": "Sun",
+        "time": "CLOSE"
+      }
     ],
     "galleryTitle": "센터 사진",
     "albums": [
-      { "name": "대기실", "photos": ["images/waiting.png"] },
-      { "name": "외부전경", "photos": ["images/exterior.png"] }
+      {
+        "name": "대기실",
+        "photos": [
+          "images/waiting.png"
+        ]
+      },
+      {
+        "name": "외부전경",
+        "photos": [
+          "images/exterior.png"
+        ]
+      }
     ]
   },
   "counselors": [
     {
-      "photo": "", "role": "소장", "name": "송미림",
+      "photo": "",
+      "role": "소장",
+      "name": "송미림",
       "field": "심리검사, 아동상담(놀이치료, 발달놀이치료), 청소년상담, 부모상담, 놀이평가",
       "education": "숙명여자대학교 아동복지학부 학사\n숙명여자대학교 아동복지학과 아동심리치료전공 석사\n숙명여자대학교 아동복지학과 아동심리치료전공 박사 수료",
       "certs": "한국놀이치료학회 공인 놀이심리상담사 1급\n청소년상담사 2급\n임상심리사 1급\n사회복지사 2급\n보육교사 1급\n유치원 정교사 2급",
@@ -44,54 +69,93 @@
       "research": "아동의 실행기능 결함 및 ADHD증상이 자기주도 학습능력에 미치는 영향\n양육시설과 공동생활 가정 아동 간 심리치료 프로그램의 효과성 비교"
     },
     {
-      "photo": "", "role": "상담연구원", "name": "서유진",
+      "photo": "",
+      "role": "상담연구원",
+      "name": "서유진",
       "field": "아동상담(놀이치료, 발달놀이치료), 청소년상담, 부모상담, 놀이평가",
       "education": "이화여자대학교 국문학 학사\n이화여자대학교 아동학 석사",
       "certs": "놀이심리상담사 1급\n아동심리상담사 1급",
       "career": "한마음 심리상담센터\n라파엘 발달심리상담센터\n성남시보육정보센터\n라임상담클리닉(소아정신과)\n다솜아동청소년연구소",
-      "training": "", "society": "",
+      "training": "",
+      "society": "",
       "research": "아동의 수줍음, 자녀의 또래관계에 대한 어머니의 개입행동 및 아동의 사회적 능력간의 관계"
     },
     {
-      "photo": "", "role": "상담연구원", "name": "정성은",
+      "photo": "",
+      "role": "상담연구원",
+      "name": "정성은",
       "field": "심리검사, 아동상담(놀이치료, 발달놀이치료), 청소년상담, 부모상담, 놀이평가",
       "education": "숙명여자대학교 아동복지학부 학사\n숙명여자대학교 아동복지학과 아동심리치료전공 석사",
       "certs": "한국놀이치료학회 공인 놀이심리상담사 2급\n청소년상담사 2급\n임상심리사 2급",
       "career": "중구육아종합지원센터\n늘심리발달센터\n하나아동발달센터\n두리언어발달재활센터",
-      "training": "", "society": "", "research": ""
+      "training": "",
+      "society": "",
+      "research": ""
     },
     {
-      "photo": "", "role": "상담연구원", "name": "최은진",
+      "photo": "",
+      "role": "상담연구원",
+      "name": "최은진",
       "field": "아동상담(놀이치료, 발달놀이치료), 청소년상담, 부모상담, 놀이평가",
       "education": "명지대학교 아동심리치료학과 석사\n명지대학교 아동학과 박사 수료",
       "certs": "놀이상담사 1급\n모래놀이상담사 1급\n임상심리사 1급",
       "career": "서대문 봄 아동발달 클리닉\n서울탑 마음 클리닉\n마포아동발달센터\n헬로스마일(잠실점)\n김혜경 언어 상담센터",
-      "training": "", "society": "", "research": ""
+      "training": "",
+      "society": "",
+      "research": ""
     },
     {
-      "photo": "", "role": "상담연구원", "name": "박인애",
+      "photo": "",
+      "role": "상담연구원",
+      "name": "박인애",
       "field": "언어치료, 인지치료, 언어평가",
       "education": "대구보건대학교 언어재활과",
       "certs": "언어재활사 2급\n인지행동심리상담사 1급\n발달진단평가사 2급\n아동문제행동지도사",
       "career": "시립일산해담은어린이집 언어재활사 및 보육교사",
-      "training": "", "society": "", "research": ""
+      "training": "",
+      "society": "",
+      "research": ""
     }
   ],
   "reservation": {
     "notice": "모든 상담은 \"사전 예약제\"로 진행됩니다.",
     "stepsTitle": "상담절차",
     "steps": [
-      { "title": "전화 문의 및 예약", "desc": "" },
-      { "title": "접수 상담지 작성", "desc": "이메일 발송" },
-      { "title": "상담실 방문 및 접수상담", "desc": "" },
-      { "title": "상담 진행", "desc": "" },
-      { "title": "종결 및 추후상담", "desc": "" }
+      {
+        "title": "전화 문의 및 예약",
+        "desc": ""
+      },
+      {
+        "title": "접수 상담지 작성",
+        "desc": "이메일 발송"
+      },
+      {
+        "title": "상담실 방문 및 접수상담",
+        "desc": ""
+      },
+      {
+        "title": "상담 진행",
+        "desc": ""
+      },
+      {
+        "title": "종결 및 추후상담",
+        "desc": ""
+      }
     ],
     "hoursTitle": "상담시간",
     "hours": [
-      { "day": "월요일 ~ 금요일", "time": "오전 11시 ~ 오후 8시" },
-      { "day": "토요일", "time": "오전 9시 ~ 오후 6시" },
-      { "day": "일요일 및 공휴일", "time": "휴무" }
+      {
+        "day": "월요일 ~ 금요일",
+        "time": "오전 11시 ~ 오후 8시"
+      },
+      {
+        "day": "토요일",
+        "time": "오전 9시 ~ 오후 6시"
+      },
+      {
+        "day": "일요일 및 공휴일",
+        "time": "휴무"
+      }
     ]
   },
   "location": {
@@ -100,16 +164,37 @@
     "title": "오시는 길",
     "lead": "DMC금호리첸시아 아파트 상가입니다.",
     "sections": [
-      { "title": "자가용이용시", "text": "당 건물 상가 전용 주차장 이용 시 최대 90분 무료주차 지원" },
-      { "title": "지하철이용시", "text": "경의 중앙선 가좌역 4번 출구로 나와 바로 앞 횡단보도를 건너\n오른쪽으로 50M 직진 후 왼쪽 먹자골목으로 진입하여 약 150M 직진" }
+      {
+        "title": "자가용이용시",
+        "text": "당 건물 상가 전용 주차장 이용 시 최대 90분 무료주차 지원"
+      },
+      {
+        "title": "지하철이용시",
+        "text": "경의 중앙선 가좌역 4번 출구로 나와 바로 앞 횡단보도를 건너\n오른쪽으로 50M 직진 후 왼쪽 먹자골목으로 진입하여 약 150M 직진"
+      }
     ],
     "bizTitle": "사업자정보",
     "biz": [
-      { "label": "상 호 명", "value": "마리아동청소년상담센터" },
-      { "label": "대 표 자", "value": "송미림" },
-      { "label": "사업자번호", "value": "543-98-01444" },
-      { "label": "전화번호", "value": "02-375-4200" },
-      { "label": "이 메 일", "value": "mary-counsel@naver.com" }
+      {
+        "label": "상 호 명",
+        "value": "마리아동청소년상담센터"
+      },
+      {
+        "label": "대 표 자",
+        "value": "송미림"
+      },
+      {
+        "label": "사업자번호",
+        "value": "543-98-01444"
+      },
+      {
+        "label": "전화번호",
+        "value": "02-375-4200"
+      },
+      {
+        "label": "이 메 일",
+        "value": "mary-counsel@naver.com"
+      }
     ]
   }
 }
