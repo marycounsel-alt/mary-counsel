@@ -9,8 +9,8 @@
     "address": "서울특별시 서대문구 수색로 2길 39, DMC금호리첸시아 상가 2층 203호",
     "bizNumber": "543-98-01444",
     "copyright": "COPYRIGHT © 마리아동청소년상담센터 2025 ALL RIGHTS RESERVED.",
-    "logo": "images/logo.png",
-    "emblem": "images/emblem.png"
+    "logo": "images/uploads/1795605528540-gndbz.png",
+    "emblem": "images/uploads/1795605533341-xy4sb.png"
   },
   "home": {
     "title": "마리 아동청소년상담센터",
@@ -199,5 +199,38 @@
         "value": "mary-counsel@naver.com"
       }
     ]
-  }
+  },
+  "menu": [
+    {
+      "type": "page",
+      "page": "index",
+      "label": "Home",
+      "show": true
+    },
+    {
+      "type": "page",
+      "page": "about",
+      "label": "센터소개",
+      "show": true
+    },
+    {
+      "type": "page",
+      "page": "counselors",
+      "label": "상담사소개",
+      "show": true
+    },
+    {
+      "type": "page",
+      "page": "reservation",
+      "label": "상담신청안내",
+      "show": true
+    },
+    {
+      "type": "page",
+      "page": "location",
+      "label": "오시는 길",
+      "show": true
+    }
+  ],
+  "pages": {}
 }
