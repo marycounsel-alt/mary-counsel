@@ -34,7 +34,7 @@ input[type=text],input[type=password],textarea{width:100%;border:1px solid #d8cf
 textarea{min-height:70px;resize:vertical}
 input:focus,textarea:focus{outline:2px solid #c9b8a6;border-color:#c9b8a6}
 .row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
-.row input{flex:1}
+.row input[type=text],.row textarea{flex:1;min-width:0}
 .ctrl{display:flex;gap:4px;flex:none}
 .thumbs{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
 .thumb{position:relative;width:120px}
