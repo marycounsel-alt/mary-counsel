@@ -188,7 +188,7 @@
     var steps = (r.steps || []).filter(function (x) { return has(x.title); });
     var stepHtml = steps.map(function (st, i) {
       return '    <li class="step"><div class="dot"><span class="num">' + pad(i + 1) + '</span><span class="ico">' + STEP_ICONS[i % STEP_ICONS.length] + '</span></div>' +
-        '<div class="txt"><strong>' + esc(st.title) + '</strong>' + (has(st.desc) ? '<small>' + fmt(st.desc) + '</small>' : '') + '</div></li>';
+        '<div class="txt"><strong>' + fmt(st.title) + '</strong>' + (has(st.desc) ? '<small>' + fmt(st.desc) + '</small>' : '') + '</div></li>';
     }).join('\n');
     var hours = (r.hours || []).filter(function (x) { return has(x.day) || has(x.time); }).map(function (x) {
       return '<li><span class="d">' + esc(x.day) + '</span><span class="t">' + esc(x.time) + '</span></li>';

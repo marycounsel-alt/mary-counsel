@@ -135,7 +135,7 @@
     var arr = get(path);
     var rows = arr.map(function (o, i) {
       return el('div', { class: 'row' }, cols.map(function (c) {
-        var inp = el('input', { type: 'text', placeholder: c.ph });
+        var inp = c.multi ? el('textarea', { rows: 2, placeholder: c.ph, style: 'min-height:52px' }) : el('input', { type: 'text', placeholder: c.ph });
         inp.value = o[c.k] || '';
         inp.addEventListener('input', function () { o[c.k] = inp.value; markDirty(); });
         return inp;
@@ -268,9 +268,9 @@
           field('전화번호 (전화 버튼)', ['site', 'phone']),
           field('카카오톡 채팅 링크 (카톡 버튼)', ['site', 'kakaoUrl'], { ph: 'http://pf.kakao.com/_xxxxx/chat', hint: '비워 두면 카톡 버튼이 숨겨집니다.' })
         ]),
-        card('상담절차', '단계 이름과 설명(선택)을 적으세요. 단계 수는 자유롭게 늘리고 줄일 수 있습니다.', [
+        card('상담절차', '단계 이름과 설명(선택)을 적으세요. 글이 길면 <b>Enter</b>로 원하는 곳에서 줄을 바꿀 수 있습니다. 단계 수는 자유롭게 늘리고 줄일 수 있습니다.', [
           field('제목', ['reservation', 'stepsTitle']),
-          rowList(['reservation', 'steps'], [{ k: 'title', ph: '단계 이름' }, { k: 'desc', ph: '설명 (선택)' }], { title: '', desc: '' }, '단계 추가')
+          rowList(['reservation', 'steps'], [{ k: 'title', ph: '단계 이름 (Enter로 줄바꿈)', multi: true }, { k: 'desc', ph: '설명 (선택)', multi: true }], { title: '', desc: '' }, '단계 추가')
         ]),
         card('상담시간', null, [
           field('제목', ['reservation', 'hoursTitle']),
