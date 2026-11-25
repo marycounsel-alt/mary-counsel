@@ -45,15 +45,41 @@
     "galleryTitle": "센터 사진",
     "albums": [
       {
-        "name": "대기실",
+        "name": "센터 대기실",
         "photos": [
-          "images/waiting.png"
+          "images/uploads/1795605916421-d5wzz.jpg",
+          "images/uploads/1795605928248-kgweh.jpg",
+          "images/uploads/1795605938580-22pux.jpg",
+          "images/uploads/1795605943663-sfvqz.jpg",
+          "images/uploads/1795605950672-2zzmw.jpg"
         ]
       },
       {
-        "name": "외부전경",
+        "name": "놀이 치료실",
         "photos": [
-          "images/exterior.png"
+          "images/uploads/1795605998486-2i3rw.jpg",
+          "images/uploads/1795606005302-bfdka.jpg",
+          "images/uploads/1795606214274-88a89.jpg",
+          "images/uploads/1795606218424-my7g2.jpg",
+          "images/uploads/1795606227018-kn1ps.jpg",
+          "images/uploads/1795606239157-8docu.jpg",
+          "images/uploads/1795606248961-xl3pf.jpg"
+        ]
+      },
+      {
+        "name": "언어 치료실",
+        "photos": [
+          "images/uploads/1795606284673-l1a2y.jpg",
+          "images/uploads/1795606683318-dktlk.jpg"
+        ]
+      },
+      {
+        "name": "상담실",
+        "photos": [
+          "images/uploads/1795606699804-xaelp.jpg",
+          "images/uploads/1795606707913-e22k7.jpg",
+          "images/uploads/1795606719048-uhsby.jpg",
+          "images/uploads/1795606724822-hypt3.jpg"
         ]
       }
     ]
