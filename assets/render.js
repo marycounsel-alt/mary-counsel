@@ -11,6 +11,21 @@
     ['location.html', '오시는 길']
   ];
 
+  // 메뉴 기본값 (content.json에 menu가 없던 예전 데이터도 그대로 동작)
+  var PAGE_FILE = { index: 'index.html', about: 'about.html', counselors: 'counselors.html', reservation: 'reservation.html', location: 'location.html' };
+  function ensure(c) {
+    if (!c.menu || !c.menu.length) {
+      c.menu = MENU.map(function (m) { return { type: 'page', page: m[0].replace('.html', ''), label: m[1], show: true }; });
+    }
+    if (!c.pages) c.pages = {};
+    return c;
+  }
+  function menuHref(m) {
+    if (m.type === 'page') return PAGE_FILE[m.page] || 'index.html';
+    if (m.type === 'custom') return 'page-' + m.id + '.html';
+    return m.url || '#';
+  }
+
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -37,8 +52,10 @@
   function layout(c, file, title, desc, body, extraHead) {
     var s = c.site;
     var url = s.siteUrl.replace(/\/$/, '') + '/' + (file === 'index.html' ? '' : file);
-    var nav = MENU.map(function (m) {
-      return '<a href="' + m[0] + '"' + (m[0] === file ? ' class="on"' : '') + '>' + m[1] + '</a>';
+    var nav = c.menu.filter(function (m) { return m.show !== false && has(m.label); }).map(function (m) {
+      var href = menuHref(m), ext = m.type === 'link';
+      return '<a href="' + esc(href) + '"' + (!ext && href === file ? ' class="on"' : '') +
+        (ext && m.newTab !== false ? ' target="_blank" rel="noopener"' : '') + '>' + esc(m.label) + '</a>';
     }).join('\n      ');
     var firstImg = (c.home.slides && c.home.slides[0]) || s.emblem;
     var kakaoBtn = has(s.kakaoUrl) ? '<a class="kakao" href="' + esc(s.kakaoUrl) + '" target="_blank" rel="noopener">💬 카톡 상담</a>' : '';
@@ -223,15 +240,36 @@
     return layout(c, 'location.html', '오시는 길 | ' + s.name, s.name + ' 오시는 길 — ' + (l.mapAddress || s.address), body);
   }
 
+  // 새로 추가한 자유 페이지 (소제목 · 내용 · 사진)
+  function pageCustom(c, m) {
+    var s = c.site, pg = c.pages[m.id] || {}, file = 'page-' + m.id + '.html';
+    var secs = (pg.sections || []).filter(function (x) { return has(x.heading) || has(x.text) || (x.photos || []).filter(has).length; });
+    var html = secs.map(function (x) {
+      var ph = (x.photos || []).filter(has);
+      var gal = ph.length ? '<div class="gallery cp-gallery">' + ph.map(function (p, i) {
+        return '<figure class="album" data-photos=\'' + esc(JSON.stringify(ph)) + '\' data-name="' + esc(x.heading || pg.title || '') + '">' +
+          '<div class="album-img"><img src="' + esc(p) + '" alt="' + esc((x.heading || pg.title || '') + ' ' + (i + 1)) + '" class="on" loading="lazy"></div></figure>';
+      }).join('') + '</div>' : '';
+      return '<section class="cp-sec">' + (has(x.heading) ? '<h2>' + esc(x.heading) + '</h2>' : '') +
+        (has(x.text) ? '<p>' + fmt(x.text) + '</p>' : '') + gal + '</section>';
+    }).join('\n');
+    var body = '<div class="wrap custom-page">\n<h1 class="page-title">' + fmt(pg.title || m.label) + '</h1>\n' +
+      (has(pg.intro) ? '<p class="cp-intro">' + fmt(pg.intro) + '</p>\n' : '') + html + '\n</div>';
+    var desc = s.name + ' ' + (pg.title || m.label) + (has(pg.intro) ? ' — ' + String(pg.intro).replace(/\s+/g, ' ').slice(0, 120) : '');
+    return layout(c, file, (pg.title || m.label) + ' | ' + s.name, desc, body);
+  }
+
   function sitemap(c) {
     var base = c.site.siteUrl.replace(/\/$/, '');
-    return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-      MENU.map(function (m) { return '  <url><loc>' + base + '/' + (m[0] === 'index.html' ? '' : m[0]) + '</loc></url>\n'; }).join('') +
-      '</urlset>\n';
+    var urls = c.menu.filter(function (m) { return m.show !== false && m.type !== 'link'; }).map(function (m) {
+      var f = menuHref(m); return '  <url><loc>' + base + '/' + (f === 'index.html' ? '' : f) + '</loc></url>\n';
+    });
+    return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('') + '</urlset>\n';
   }
 
   function renderAll(c) {
-    return {
+    ensure(c);
+    var out = {
       'index.html': pageHome(c),
       'about.html': pageAbout(c),
       'counselors.html': pageCounselors(c),
@@ -239,9 +277,11 @@
       'location.html': pageLocation(c),
       'sitemap.xml': sitemap(c)
     };
+    c.menu.forEach(function (m) { if (m.type === 'custom') out['page-' + m.id + '.html'] = pageCustom(c, m); });
+    return out;
   }
 
-  var api = { renderAll: renderAll, MENU: MENU };
+  var api = { renderAll: renderAll, ensure: ensure, MENU: MENU, PAGE_FILE: PAGE_FILE };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.MaryRender = api;
 })(this);

@@ -60,7 +60,7 @@
       if (!repo.permissions || !repo.permissions.push) throw new Error('이 토큰에는 저장소 쓰기 권한이 없습니다.');
       return gh('GET', '/contents/content.json?ref=' + branch);
     }).then(function (f) {
-      C = JSON.parse(b64ToText(f.content));
+      C = MaryRender.ensure(JSON.parse(b64ToText(f.content)));
       original = JSON.parse(JSON.stringify(C));
       try { localStorage.setItem(LS, JSON.stringify(cfg)); } catch (e) {}
       $('loginView').classList.add('hidden'); $('appView').classList.remove('hidden');
@@ -150,6 +150,7 @@
   // ---------- 탭별 화면 ----------
   var TABS = [
     { id: 'site', name: '기본정보', file: 'index.html' },
+    { id: 'menu', name: '메뉴', file: 'index.html' },
     { id: 'home', name: 'Home', file: 'index.html' },
     { id: 'about', name: '센터소개', file: 'about.html' },
     { id: 'counselors', name: '상담사소개', file: 'counselors.html' },
@@ -188,7 +189,12 @@
     },
 
     home: function () {
+      var ep = ['site', 'emblem'];
       return [
+        card('가운데 로고', '홈 화면 가운데 갈색 로고입니다. PNG(배경 투명) 파일을 권장합니다. (기본정보 탭의 “Home 가운데 로고”와 같은 항목)', [
+          el('div', { class: 'one-photo' }, [el('img', { src: imgSrc(get(ep)), alt: '', style: 'width:110px;height:110px;object-fit:contain;background:#fff' }),
+            uploadBtn('로고 바꾸기', false, function (ps) { set(ep, ps[0]); })])
+        ]),
         card('가운데 문구', '<b>**글자**</b>처럼 별표 두 개로 감싸면 굵게 표시됩니다. 줄바꿈은 그대로 반영됩니다.', [
           field('제목', ['home', 'title'], { multi: true, rows: 2 }),
           field('문구', ['home', 'text'], { multi: true, rows: 3 })
@@ -301,17 +307,94 @@
     }
   };
   var openIdx = -1;
+
+  // ---------- 메뉴 ----------
+  var PAGE_NAMES = { index: 'Home 페이지', about: '센터소개 페이지', counselors: '상담사소개 페이지', reservation: '상담신청안내 페이지', location: '오시는 길 페이지' };
+  VIEWS.menu = function () {
+    var list = C.menu;
+    var rows = list.map(function (m, i) {
+      var lab = el('input', { type: 'text', placeholder: '메뉴 이름' }); lab.value = m.label || '';
+      lab.addEventListener('input', function () { m.label = lab.value; markDirty(); });
+      var showBox = el('input', { type: 'checkbox' }); showBox.checked = m.show !== false;
+      showBox.addEventListener('change', function () { m.show = showBox.checked; markDirty(); });
+      var kind = m.type === 'page' ? PAGE_NAMES[m.page] : m.type === 'custom' ? '새로 만든 페이지' : '외부 링크';
+      var extra = null;
+      if (m.type === 'link') {
+        var url = el('input', { type: 'text', placeholder: 'https://… (예: 네이버 블로그 주소)' }); url.value = m.url || '';
+        url.addEventListener('input', function () { m.url = url.value.trim(); markDirty(); });
+        var nt = el('input', { type: 'checkbox' }); nt.checked = m.newTab !== false;
+        nt.addEventListener('change', function () { m.newTab = nt.checked; markDirty(); });
+        extra = el('div', { class: 'row' }, [url, el('label', { style: 'white-space:nowrap;font-size:12px' }, [nt, ' 새 창으로'])]);
+      }
+      var ctrl = ctrlBtns(list, i, function () { buildTabs(); renderTab(); });
+      if (m.type === 'page') ctrl.lastChild.remove(); // 기본 페이지는 삭제 대신 숨기기
+      if (m.type === 'custom') {
+        ctrl.insertBefore(el('button', { class: 'btn line sm', text: '내용 편집', on: { click: function () { tab = 'custom:' + m.id; buildTabs(); renderTab(); window.scrollTo(0, 0); } } }), ctrl.firstChild);
+      }
+      return el('div', { class: 'item' }, [
+        el('div', { class: 'item-head' }, [el('b', { text: (i + 1) + '. ' + kind }), ctrl]),
+        el('div', { class: 'row' }, [lab, el('label', { style: 'white-space:nowrap;font-size:12px' }, [showBox, ' 메뉴에 보이기'])]),
+        extra
+      ]);
+    });
+    return [
+      card('상단 메뉴', '이름을 바꾸고 ↑↓로 순서를 정하세요. “메뉴에 보이기”를 끄면 메뉴에서만 빠지고 페이지는 그대로 남습니다. 기본 페이지는 삭제할 수 없고 숨기기만 됩니다.', rows.concat([
+        el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap' }, [
+          el('button', { class: 'btn dark sm', text: '+ 새 페이지 추가', on: { click: function () {
+            var id = Date.now().toString(36);
+            list.push({ type: 'custom', id: id, label: '새 페이지', show: true });
+            C.pages[id] = { title: '새 페이지', intro: '', sections: [{ heading: '', text: '', photos: [] }] };
+            markDirty(); tab = 'custom:' + id; buildTabs(); renderTab(); window.scrollTo(0, 0);
+          } } }),
+          el('button', { class: 'btn line sm', text: '+ 외부 링크 추가 (블로그 등)', on: { click: function () {
+            list.push({ type: 'link', label: '블로그', url: '', show: true, newTab: true }); markDirty(); renderTab();
+          } } })
+        ])
+      ]))
+    ];
+  };
+
+  // ---------- 새로 만든 페이지 편집 ----------
+  function customView(id) {
+    var pg = C.pages[id] || (C.pages[id] = { title: '', intro: '', sections: [] });
+    var secs = pg.sections || (pg.sections = []);
+    var secEls = secs.map(function (x, i) {
+      if (!x.photos) x.photos = [];
+      return el('div', { class: 'item' }, [
+        el('div', { class: 'item-head' }, [el('b', { text: '문단 ' + (i + 1) }), ctrlBtns(secs, i)]),
+        field('소제목', ['pages', id, 'sections', i, 'heading']),
+        field('내용', ['pages', id, 'sections', i, 'text'], { multi: true, rows: 4 }),
+        photoList(['pages', id, 'sections', i, 'photos'], '이 문단에 사진 추가')
+      ]);
+    });
+    return [
+      card('페이지 제목 · 소개', '메뉴 이름은 “메뉴” 탭에서 바꿉니다. **글자**는 굵게 표시됩니다.', [
+        field('페이지 제목', ['pages', id, 'title']),
+        field('소개 문구 (선택)', ['pages', id, 'intro'], { multi: true })
+      ]),
+      card('내용', '문단마다 소제목·내용·사진을 넣을 수 있습니다. 빈 칸은 표시되지 않습니다.', secEls.concat([
+        el('button', { class: 'btn dark sm', text: '+ 문단 추가', on: { click: function () { secs.push({ heading: '', text: '', photos: [] }); markDirty(); renderTab(); } } })
+      ]))
+    ];
+  }
+  function allTabs() {
+    var extra = (C ? C.menu : []).filter(function (m) { return m.type === 'custom'; }).map(function (m) {
+      return { id: 'custom:' + m.id, name: '📄 ' + (m.label || '새 페이지'), file: 'page-' + m.id + '.html' };
+    });
+    return TABS.concat(extra);
+  }
   function has(s) { return String(s || '').trim() !== ''; }
 
   function buildTabs() {
     var nav = $('tabs'); nav.innerHTML = '';
-    TABS.forEach(function (t) {
+    allTabs().forEach(function (t) {
       nav.appendChild(el('button', { class: t.id === tab ? 'on' : '', text: t.name, on: { click: function () { tab = t.id; openIdx = -1; buildTabs(); renderTab(); window.scrollTo(0, 0); } } }));
     });
   }
   function renderTab() {
     var y = window.scrollY, p = $('panel'); p.innerHTML = '';
-    VIEWS[tab]().forEach(function (n) { p.appendChild(n); });
+    if (tab.indexOf('custom:') === 0 && !C.menu.some(function (m) { return 'custom:' + m.id === tab; })) tab = 'menu';
+    (tab.indexOf('custom:') === 0 ? customView(tab.slice(7)) : VIEWS[tab]()).forEach(function (n) { p.appendChild(n); });
     // 상담사 카드 열림 상태 유지
     if (tab === 'counselors') Array.prototype.forEach.call(p.querySelectorAll('details'), function (d, i) {
       d.addEventListener('toggle', function () { if (d.open) openIdx = i; });
@@ -321,7 +404,7 @@
 
   // ---------- 미리보기 ----------
   function preview() {
-    var file = TABS.filter(function (t) { return t.id === tab; })[0].file;
+    var file = allTabs().filter(function (t) { return t.id === tab; })[0].file;
     var html = MaryRender.renderAll(C)[file];
     Object.keys(pending).forEach(function (p) { html = html.split(p).join(pending[p].url); });
     $('pvFrame').srcdoc = html; $('pvFrame').style.maxWidth = ''; $('pv').classList.remove('hidden');
@@ -334,6 +417,9 @@
     return set;
   }
   function save() {
+    // 메뉴에서 삭제한 “새 페이지”의 내용 정리
+    var nowIds = {}; C.menu.forEach(function (m) { if (m.type === 'custom') nowIds[m.id] = 1; });
+    Object.keys(C.pages).forEach(function (id) { if (!nowIds[id]) delete C.pages[id]; });
     var btn = $('saveBtn'); btn.disabled = true; btn.textContent = '저장 중…';
     var pages = MaryRender.renderAll(C);
     var used = collectUploads(C, {}), before = collectUploads(original, {});
@@ -341,6 +427,8 @@
     Object.keys(pages).forEach(function (f) { files.push({ path: f, content: pages[f], encoding: 'utf-8' }); });
     Object.keys(pending).forEach(function (p) { if (used[p]) files.push({ path: p, content: pending[p].b64, encoding: 'base64' }); });
     var removed = Object.keys(before).filter(function (p) { return !used[p]; });
+    // 메뉴에서 삭제한 “새 페이지”는 html 파일도 지움
+    (original.menu || []).forEach(function (m) { if (m.type === 'custom' && !nowIds[m.id]) removed.push('page-' + m.id + '.html'); });
     var headSha;
     gh('GET', '/git/ref/heads/' + branch).then(function (ref) {
       headSha = ref.object.sha;

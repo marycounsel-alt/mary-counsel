@@ -163,6 +163,14 @@ footer .sep{margin:0 6px;color:#999}
 .c-nav{display:flex;justify-content:space-between;font-size:13px;color:#666}
 .c-nav a:hover{color:#000}
 
+/* 새로 추가한 페이지 */
+.custom-page{padding-bottom:60px}
+.cp-intro{text-align:center;color:#555;max-width:720px;margin:0 auto 40px}
+.cp-sec{max-width:820px;margin:0 auto 46px}
+.cp-sec h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:22px;color:#111;margin-bottom:10px}
+.cp-sec p{font-size:14px;color:#444}
+.cp-gallery{grid-template-columns:repeat(3,1fr);margin:16px 0 0}
+
 .callbar{display:none}
 
 @media (max-width:768px){
